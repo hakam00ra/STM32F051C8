@@ -135,7 +135,16 @@ uint64_t result=0;
 }
 
 
-
+/**
+  * @brief  I2C continuous receive an amount of data (up to 16 bytes) 
+  * @param  ic pointer to a I2C_HandleTypeDef structure that contains
+  *               the configuration information for I2C module.
+  * @param  Number of hbytes (high) to be received
+  * @param  Device ID
+  * @param  Device address
+  * @param  Data to be received (15-8)
+  * @param  Data to be received (7-0)
+  */
 uint64_t i2c_receive_cont (I2C_TypeDef *ic, uint8_t bytes, uint8_t device, uint8_t address, uint64_t *phdata, uint64_t *pldata)
 {	for (int i=0;i<30000;i++);
   uint8_t hdata[8];
