@@ -69,7 +69,7 @@ ic->CR1&=~ 1<<0;  // i2c disable
 
 
 /**
-  * @brief  I2C transmit an amount of data 
+  * @brief  I2C transmit one byte
   * @param  ic pointer to a I2C_HandleTypeDef structure that contains
   *               the configuration information for I2C module.
   * @param  Number of bytes to be transmitted
@@ -95,7 +95,7 @@ void i2c_transmit (I2C_TypeDef *ic, uint8_t bytes, uint8_t device, uint8_t addre
 
 
 /**
-  * @brief  I2C receive an amount of data 
+  * @brief  I2C receive one byte
   * @param  ic pointer to a I2C_HandleTypeDef structure that contains
   *               the configuration information for I2C module.
   * @param  Number of bytes to be received
