@@ -17,16 +17,16 @@ void gpio_init(GPIO_TYPE gpio_type){
 	RCC->AHBENR|= 1<<19;
 	
 	
-	  gpio_type.gp->MODER&= ~ 2<<(gpio_type.pin*2);  // gpio mode
-    gpio_type.gp->MODER|=  gpio_type.mode<<(gpio_type.pin*2);
+                gpio_type.gp->MODER&= ~ 2<<(gpio_type.pin*2);  // gpio mode
+                gpio_type.gp->MODER|=  gpio_type.mode<<(gpio_type.pin*2);
 	
 	if (gpio_type.mode==output_mode && gpio_type.type==pp ){
 		gpio_type.gp->OTYPER&=~ 1<<gpio_type.pin;
-	  gpio_type.gp->OSPEEDR&=~3<<(gpio_type.pin*2);	
+	        gpio_type.gp->OSPEEDR&=~3<<(gpio_type.pin*2);	
 		gpio_type.gp->OSPEEDR|= gpio_type.speed<<(gpio_type.pin*2);	
 	
 }
-  if (gpio_type.mode==output_mode && gpio_type.type==od){ 
+        if (gpio_type.mode==output_mode && gpio_type.type==od){ 
 		gpio_type.gp->OTYPER|= 1<<gpio_type.pin;
 		gpio_type.gp->OSPEEDR&=~3<<(gpio_type.pin*2);	
 		gpio_type.gp->OSPEEDR|= gpio_type.speed<<(gpio_type.pin*2);	
@@ -37,12 +37,12 @@ void gpio_init(GPIO_TYPE gpio_type){
 		gpio_type.gp->PUPDR|= gpio_type.res<<(gpio_type.pin*2);	
 	}
 
-		if (gpio_type.mode==alt_func && gpio_type.pin<8) {  // alternate functions low and high registers
-    gpio_type.gp->AFR[0]|= gpio_type.af<<(gpio_type.pin*4);	
+        if (gpio_type.mode==alt_func && gpio_type.pin<8) {  // alternate functions low and high registers
+                gpio_type.gp->AFR[0]|= gpio_type.af<<(gpio_type.pin*4);	
 	}
 		
-		if (gpio_type.mode==alt_func && gpio_type.pin>7) {
-    gpio_type.gp->AFR[1]|= gpio_type.af<<(gpio_type.pin*4);	
+        if (gpio_type.mode==alt_func && gpio_type.pin>7) {
+                gpio_type.gp->AFR[1]|= gpio_type.af<<(gpio_type.pin*4);	
 	}
 
 	
@@ -96,16 +96,16 @@ RCC->APB2ENR|= 1<<0;  // enable peripheral clock for SYSCFG
 	switch(pinNumber){  // external interrupt configuration register selection for corresponding pin
 	
 		case 0:
-			SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI0_PA ;
+			        SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI0_PA ;
 		break;
 		case 1:
-			SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI1_PA ;
+			        SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI1_PA ;
     break;
 		case 2:
-   			SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI2_PA ;
+   			        SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI2_PA ;
     break;
 		case 3:
-   			SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI3_PA ;
+   			        SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI3_PA ;
     break;
 		case 4:
 				SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI4_PA ;
@@ -114,10 +114,10 @@ RCC->APB2ENR|= 1<<0;  // enable peripheral clock for SYSCFG
 				SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI5_PA ;
     break;
 		case 6:
-   			SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI6_PA ;
+   			        SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI6_PA ;
     break;
 		case 7:
-   			SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI7_PA ;
+   			        SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI7_PA ;
     break;
 		case 8:
 				SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI8_PA ;
@@ -126,10 +126,10 @@ RCC->APB2ENR|= 1<<0;  // enable peripheral clock for SYSCFG
 				SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI9_PA ;
     break;
 		case 10:
-   			SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI10_PA ;
+   			        SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI10_PA ;
     break;
 		case 11:
-   			SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI11_PA ;
+   			        SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI11_PA ;
     break;
 		case 12:
 				SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI12_PA ;
@@ -138,10 +138,10 @@ RCC->APB2ENR|= 1<<0;  // enable peripheral clock for SYSCFG
 				SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI13_PA ;
     break;
 		case 14:
-   			SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI14_PA ;
+   			        SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI14_PA ;
     break;
 		case 15:
-   			SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI15_PA ;
+   			        SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI15_PA ;
     break;
 	
 	
@@ -155,16 +155,16 @@ RCC->APB2ENR|= 1<<0;  // enable peripheral clock for SYSCFG
 	switch(pinNumber){
 	
 		case 0:
-			SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI0_PB ;
+			        SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI0_PB ;
 		break;
 		case 1:
-			SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI1_PB ;
+			        SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI1_PB ;
     break;
 		case 2:
-   			SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI2_PB ;
+   			        SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI2_PB ;
     break;
 		case 3:
-   			SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI3_PB ;
+   			        SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI3_PB ;
     break;
 		case 4:
 				SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI4_PB ;
@@ -173,10 +173,10 @@ RCC->APB2ENR|= 1<<0;  // enable peripheral clock for SYSCFG
 				SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI5_PB ;
     break;
 		case 6:
-   			SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI6_PB ;
+   			        SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI6_PB ;
     break;
 		case 7:
-   			SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI7_PB ;
+   			        SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI7_PB ;
     break;
 		case 8:
 				SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI8_PB ;
@@ -185,10 +185,10 @@ RCC->APB2ENR|= 1<<0;  // enable peripheral clock for SYSCFG
 				SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI9_PB ;
     break;
 		case 10:
-   			SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI10_PB ;
+   			        SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI10_PB ;
     break;
 		case 11:
-   			SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI11_PB ;
+   			        SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI11_PB ;
     break;
 		case 12:
 				SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI12_PB ;
@@ -197,10 +197,10 @@ RCC->APB2ENR|= 1<<0;  // enable peripheral clock for SYSCFG
 				SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI13_PB ;
     break;
 		case 14:
-   			SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI14_PB ;
+   			        SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI14_PB ;
     break;
 		case 15:
-   			SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI15_PB ;
+   			        SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI15_PB ;
     break;
 	
 	
@@ -213,16 +213,16 @@ RCC->APB2ENR|= 1<<0;  // enable peripheral clock for SYSCFG
 	switch(pinNumber){
 	
 		case 0:
-			  SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI0_PC ;
+		       	        SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI0_PC ;
 		break;
 		case 1:
-			SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI1_PC ;
+			        SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI1_PC ;
     break;
 		case 2:
-   			SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI2_PC ;
+   			        SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI2_PC ;
     break;
 		case 3:
-   			SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI3_PC ;
+   			        SYSCFG->EXTICR[0]=SYSCFG_EXTICR1_EXTI3_PC ;
     break;
 		case 4:
 				SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI4_PC ;
@@ -231,10 +231,10 @@ RCC->APB2ENR|= 1<<0;  // enable peripheral clock for SYSCFG
 				SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI5_PC ;
     break;
 		case 6:
-   			SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI6_PC ;
+   			        SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI6_PC ;
     break;
 		case 7:
-   			SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI7_PC ;
+   			        SYSCFG->EXTICR[1]=SYSCFG_EXTICR2_EXTI7_PC ;
     break;
 		case 8:
 				SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI8_PC ;
@@ -243,10 +243,10 @@ RCC->APB2ENR|= 1<<0;  // enable peripheral clock for SYSCFG
 				SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI9_PC ;
     break;
 		case 10:
-   			SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI10_PC ;
+   			        SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI10_PC ;
     break;
 		case 11:
-   			SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI11_PC ;
+   			        SYSCFG->EXTICR[2]=SYSCFG_EXTICR3_EXTI11_PC ;
     break;
 		case 12:
 				SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI12_PC ;
@@ -255,10 +255,10 @@ RCC->APB2ENR|= 1<<0;  // enable peripheral clock for SYSCFG
 				SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI13_PC ;
     break;
 		case 14:
-   			SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI14_PC ;
+   			        SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI14_PC ;
     break;
 		case 15:
-   			SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI15_PC ;
+   			        SYSCFG->EXTICR[3]=SYSCFG_EXTICR4_EXTI15_PC ;
     break;
 	
 	
