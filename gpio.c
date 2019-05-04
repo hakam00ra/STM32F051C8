@@ -88,7 +88,12 @@ gp->ODR ^=1<<pinNumber;
   * @param Select the edge from which the interrupt is triggered
   */
 void configure_gpio_interrupt(GPIO_TypeDef*gp, uint32_t pinNumber, edge_select edge){
-
+	if (gpio_type.gp==GPIOA)
+	RCC->AHBENR|= 1<<17;  // gpio clock enable
+        if (gpio_type.gp==GPIOB)
+	RCC->AHBENR|= 1<<18;
+        if (gpio_type.gp==GPIOC)
+	RCC->AHBENR|= 1<<19;
 RCC->APB2ENR|= 1<<0;  // enable peripheral clock for SYSCFG 
 	
 	if (gp==GPIOA)
