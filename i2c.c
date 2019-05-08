@@ -51,11 +51,12 @@ void i2c_transmit_cont (I2C_TypeDef *ic, uint8_t hbytes, uint8_t lbytes, uint8_t
 	uint8_t xhdata[8]={hdata, hdata>>8, hdata>>16, hdata>>24, hdata>>32, hdata>>40, hdata>>48, hdata>>56};
 	uint8_t bytes=hbytes+lbytes+1;
 	
-  ic->CR1|= 1<<0;  // i2c enable
-  ic->CR2=0x0;
+        ic->CR1|= 1<<0;  // i2c enable
+        ic->CR2=0x0;
 	ic->CR2|= 1<<25 | (bytes<<16) | (device<<1) ;  // write
 	ic->CR2|= 1<<13;
-  while (!(ic->ISR & I2C_ISR_TXIS));
+        while (!(ic->ISR & I2C_ISR_TXIS));  // checking the Transmit Interrupt Status bit (it is set when the I2C_TXDR register is empty and the data to be
+        //transmitted must be written in the I2C_TXDR register
 	ic->TXDR= address;
 		for (int i=hbytes-1;i>=0;i--){
 	while (!(ic->ISR & I2C_ISR_TXIS));
@@ -86,11 +87,11 @@ ic->CR1&=~ 1<<0;  // i2c disable
   */
 void i2c_transmit (I2C_TypeDef *ic, uint8_t bytes, uint8_t device, uint8_t address, uint8_t data)
 {	for (int i=0;i<300000;i++);
-  ic->CR1|= 1<<0;  // i2c enable
-  ic->CR2=0x0;
-	ic->CR2|= (1<<25) | (bytes<<16) | (device<<1) ;  // write
+        ic->CR1|= 1<<0;  // i2c enable
+        ic->CR2=0x0; // clear the register
+	ic->CR2|= (1<<25) | (bytes<<16) | (device<<1) ;  // write, autoend
 	ic->CR2|= 1<<13;
-  while (!(ic->ISR & I2C_ISR_TXIS));
+        while (!(ic->ISR & I2C_ISR_TXIS));
 	ic->TXDR= address;
 	while (!(ic->ISR & I2C_ISR_TXIS));
 	ic->TXDR= data;  
@@ -114,14 +115,12 @@ uint64_t i2c_receive (I2C_TypeDef *ic, uint8_t bytes, uint8_t device, uint8_t ad
 {	for (int i=0;i<30000;i++);
 uint64_t result=0;
 	ic->CR1|= 1<<0; // enable
-//	ic->CR1&=~ I2C_CR1_PE ;
-  ic->CR2=0x0;
-	ic->CR2&=~ 1<<25;  // autoend disable
+        ic->CR2=0x0;
 	ic->CR2|= (bytes<<16) | (device<<1) ;
 	ic->CR2|= 1<<13;  // start
-  while (!(ic->ISR & I2C_ISR_TXIS));
+        while (!(ic->ISR & I2C_ISR_TXIS));
 	ic->TXDR= address;	
-  while (!(I2C1->ISR & I2C_ISR_TC));	
+        while (!(I2C1->ISR & I2C_ISR_TC));	// checking the Transfer Complete bit (it is set when NBYTES have been transferred)
 	
 	ic->CR2|= (1<<10) | (bytes<<16) | (device<<1) ;
 	ic->CR2|= 1<<13;	// restart
@@ -130,7 +129,7 @@ uint64_t result=0;
   result=ic->RXDR;	
 	ic->CR2|= 1<<14;	// stop
 	for (int i=0;i<300;i++);
-  ic->CR1&=~ 1<<0;
+        ic->CR1&=~ 1<<0;
 	return result;
 }
 
@@ -149,17 +148,16 @@ uint64_t i2c_receive_cont (I2C_TypeDef *ic, uint8_t bytes, uint8_t device, uint8
 {	for (int i=0;i<30000;i++);
   uint8_t hdata[8];
 	uint8_t ldata[8];
-	ic->CR1|= 1<<0; // enable
-//	ic->CR1&=~ I2C_CR1_PE ;
-  ic->CR2=0x0;
-	ic->CR2&=~ 1<<25;  // autoend disable
+	ic->CR1|= 1<<0; // enable | ic->CR1&=~ I2C_CR1_PE ;
+        ic->CR2=0x0;
+	
 	ic->CR2|= (1<<16) | (device<<1) ;
 	ic->CR2|= 1<<13;  // start
-  while (!(ic->ISR & I2C_ISR_TXIS));
+        while (!(ic->ISR & I2C_ISR_TXIS));
 	ic->TXDR= address;	
-  while (!(ic->ISR & I2C_ISR_TC));	
-		
-	 ic->CR2=0x0;
+        while (!(ic->ISR & I2C_ISR_TC));	
+ 		
+	ic->CR2=0x0;
 	ic->CR2|= (1<<10) | (bytes<<16) | (device<<1) ;
 	ic->CR2|= 1<<13;	// restart
 	if (bytes>8){
@@ -190,17 +188,3 @@ uint64_t i2c_receive_cont (I2C_TypeDef *ic, uint8_t bytes, uint8_t device, uint8
   ic->CR1&=~ 1<<0;
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
