@@ -55,8 +55,8 @@ void i2c_transmit_cont (I2C_TypeDef *ic, uint8_t hbytes, uint8_t lbytes, uint8_t
         ic->CR2=0x0;
 	ic->CR2|= 1<<25 | (bytes<<16) | (device<<1) ;  // write
 	ic->CR2|= 1<<13;
-        while (!(ic->ISR & I2C_ISR_TXIS));  // checking the Transmit Interrupt Status bit (it is set when the I2C_TXDR register is empty and the data to be
-        //transmitted must be written in the I2C_TXDR register
+        while (!(ic->ISR & I2C_ISR_TXIS));  // checking the Transmit Interrupt Status bit (it is set when the I2C_TXDR register is 
+        //empty and the data to be transmitted must be written in the I2C_TXDR register
 	ic->TXDR= address;
 		for (int i=hbytes-1;i>=0;i--){
 	while (!(ic->ISR & I2C_ISR_TXIS));
