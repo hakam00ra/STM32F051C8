@@ -13,13 +13,13 @@ void spi_init(SPI_TYPE spi_type){
 	RCC->APB2ENR|= 1<<12;  // SPI1 ENABLE CLOCK
   // should be configured for push pull but it is so by default
 	GPIOA->MODER &= ~ (3<<10);  // alternate functions for GPIO 
-  GPIOA->MODER |= 2<<10;	
+ 	GPIOA->MODER |= 2<<10;	
 	
 	GPIOA->MODER &= ~ (3<<12);   
-  GPIOA->MODER |= 2<<12;	
+  	GPIOA->MODER |= 2<<12;	
 	
 	GPIOA->MODER &= ~ (3<<14);   
-  GPIOA->MODER |= 2<<14;
+  	GPIOA->MODER |= 2<<14;
 	
 	}
 		
@@ -30,13 +30,13 @@ void spi_init(SPI_TYPE spi_type){
 
 
 	GPIOB->MODER &= ~ (3<<26);   // alternate fucntion for gpio (mosi, miso, sck)
-  GPIOB->MODER |= 2<<26;	
+  	GPIOB->MODER |= 2<<26;	
 	
 	GPIOB->MODER &= ~ (3<<28);   
-  GPIOB->MODER |= 2<<28;	
+  	GPIOB->MODER |= 2<<28;	
 	
 	GPIOB->MODER &= ~ (3<<30);   
-  GPIOB->MODER |= 2<<30;
+  	GPIOB->MODER |= 2<<30;
 	}
 	
 // spi alternate function code is zero, so no changes in the gpio afr register needed
@@ -54,13 +54,13 @@ void spi_init(SPI_TYPE spi_type){
 	if (spi_type.bit==bits8)
 	{ spi_type.sp->CR2&=~ (0xF<<8);
 	  spi_type.sp->CR2|= 0x7<<8; // this if is unecessary as the register's reset value is 0x700 (8bit data size by default)
-}
+	}
 	if (spi_type.bit==bits16)
 		{spi_type.sp->CR2&=~ (0xF<<8);
 	   spi_type.sp->CR2|= 0xF<<8; 
-}
+	}
 
-  if (spi_type.fifo==th8)  // fifo threshold according to data size
+ 	 if (spi_type.fifo==th8)  // fifo threshold according to data size
 		spi_type.sp->CR2|= (1<<12) | (1<<2);
 
 }
@@ -81,10 +81,10 @@ void spi_transmit(SPI_TypeDef*sp, uint32_t bytes,uint32_t data){
 	
 	
 		
-			uint8_t xdata[4]={data, data>>8, data>>16, data>>24};
-			for (int i=bytes-1;i>=0;i--)
-			{while ( (sp->SR & SPI_SR_TXE  ) == 0 && ( sp->SR & SPI_SR_BSY)==1);
-			*((uint8_t*)&sp->DR) = (uint8_t) xdata[i];
+	uint8_t xdata[4]={data, data>>8, data>>16, data>>24};
+	for (int i=bytes-1;i>=0;i--) {
+		while ( (sp->SR & SPI_SR_TXE  ) == 0 && ( sp->SR & SPI_SR_BSY)==1);
+		*((uint8_t*)&sp->DR) = (uint8_t) xdata[i];
 	}
 	
 	// wait until FTLVL[1:0]=0
@@ -92,8 +92,8 @@ void spi_transmit(SPI_TypeDef*sp, uint32_t bytes,uint32_t data){
 	while ((sp->SR & SPI_SR_FTLVL) ==1){sp->DR;};
 	while(!(sp->SR & SPI_SR_RXNE)){sp->DR;};
 		
-    while((sp->SR & SPI_SR_FRLVL )!=0){
-  	sp->DR;
+  	while((sp->SR & SPI_SR_FRLVL )!=0){
+  		sp->DR;
 	}
 	
 	
